@@ -1,0 +1,10 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "./src/object-instance/switches",
+    "./src/object-instance/variables",
+    "./src/object-instance",
+    "./src"
+  ],
+  "out": "dist/docs"
+}
