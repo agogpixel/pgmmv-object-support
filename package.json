@@ -1,7 +1,7 @@
 {
   "name": "@agogpixel/pgmmv-object-support",
   "description": "Object support for Pixel Game Maker MV scripting.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "kidthales <kidthales@agogpixel.com>",
   "version": "0.4.0",
   "repository": {
@@ -18,7 +18,7 @@
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "cavy copy dist && shx cp LICENSE README.md dist",
     "smoke-test": "cd test/smoke && npm install && npm test",
-    "build-docs": "typedoc --out dist/docs --entryPointStrategy expand src/index.ts && shx cp LICENSE dist/docs",
+    "build-docs": "typedoc --options typedoc.json && shx cp LICENSE dist/docs",
     "create-tarball": "cavy pack dist",
     "publish-tarball": "cavy publish dist",
     "lint": "cavy lint --all",
