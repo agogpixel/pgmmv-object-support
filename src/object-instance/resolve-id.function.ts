@@ -1,5 +1,5 @@
 /**
- * Exports object instance switch/variable access function.
+ * Exports object instance switch/variable resolve ID function.
  *
  * @module object-instance/resolve-id.function
  */

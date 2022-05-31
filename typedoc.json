@@ -1,9 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
+    "./src/font",
+    "./src/image",
     "./src/object-instance/switches",
     "./src/object-instance/variables",
     "./src/object-instance",
+    "./src/text",
     "./src"
   ],
   "out": "dist/docs"

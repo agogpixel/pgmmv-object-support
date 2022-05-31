@@ -3,4 +3,6 @@
  *
  * @module
  */
+export * from './font';
+export * from './image';
 export * from './object-instance';
