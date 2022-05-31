@@ -4,3 +4,4 @@
  * @module text
  */
 export * from './get-text.function';
+export * from './parse';

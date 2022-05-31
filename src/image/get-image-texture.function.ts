@@ -8,9 +8,9 @@ import type { AgtkImage } from '@agogpixel/pgmmv-ts/api/agtk/image';
 import { getImage } from './get-image.function';
 
 /**
- * Get texture for image with specified ID or name.
+ * Get texture for image with specified ID, name, or object.
  *
- * @param keyOrImage Image ID or name.
+ * @param keyOrImage Image ID, name, or object.
  * @returns Texture or `undefined`.
  */
 export function getImageTexture(keyOrImage: number | string | AgtkImage) {
