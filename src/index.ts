@@ -6,3 +6,4 @@
 export * from './font';
 export * from './image';
 export * from './object-instance';
+export * from './text';
