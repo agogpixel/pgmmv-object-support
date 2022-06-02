@@ -1,7 +1,8 @@
 /**
  * Exports text support APIs and implementations.
  *
- * @module text
+ * @module
  */
 export * from './get-text.function';
+export * from './node';
 export * from './parse';

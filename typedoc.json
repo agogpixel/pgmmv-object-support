@@ -6,6 +6,7 @@
     "./src/object-instance/switches",
     "./src/object-instance/variables",
     "./src/object-instance",
+    "./src/text/node",
     "./src/text/parse",
     "./src/text",
     "./src"
