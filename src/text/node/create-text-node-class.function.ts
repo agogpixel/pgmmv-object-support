@@ -85,7 +85,7 @@ function initWithBitmapFont(this: TextNode, alignment: TextNodeAlignment) {
   const letterLayoutLookup: Record<string, { column: number; row: number }> = {};
   let maxletterLayoutLineLength = 0;
 
-  for (let i = 0; i < letterLayoutLines.length; i++) {
+  for (let i = 0; i < letterLayoutLines.length; ++i) {
     const letterLayoutLine = letterLayoutLines[i];
     maxletterLayoutLineLength = Math.max(maxletterLayoutLineLength, letterLayoutLine.length);
 
@@ -115,7 +115,7 @@ function initWithBitmapFont(this: TextNode, alignment: TextNodeAlignment) {
         const parsedTextLineSegmentNormalizedText = parsedTextLineSegment.normalizedText;
         const parsedTextLineSegmentSize = parsedTextLineSegment.size;
 
-        for (let j = 0; j < parsedTextLineSegmentNormalizedText.length; ++i) {
+        for (let j = 0; j < parsedTextLineSegmentNormalizedText.length; ++j) {
           const parsedTextLineLetter = parsedTextLineSegmentNormalizedText[j];
           const isHankaku =
             !parsedTextLineLetter.match(/[^\x01-\x7E]/) || !parsedTextLineLetter.match(/[^\uFF65-\uFF9F]/);
