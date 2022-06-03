@@ -9,8 +9,8 @@ import type { CCNode } from '@agogpixel/pgmmv-ts/api/cc/node';
 
 import { getImageTexture } from '../../image/get-image-texture.function';
 
-import { parseText } from '../parse/parse-text.function';
-import type { ParsedTextLine } from '../parse/parsed-text-line.interface';
+import { parseText } from '../../text/parse/parse-text.function';
+import type { ParsedTextLine } from '../../text/parse/parsed-text-line.interface';
 
 import { TextNodeAlignment } from './text-node-alignment.enum';
 import type { TextNodeClass } from './text-node-class.type';

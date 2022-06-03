@@ -4,5 +4,4 @@
  * @module
  */
 export * from './get-text.function';
-export * from './node';
 export * from './parse';

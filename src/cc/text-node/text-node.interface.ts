@@ -5,7 +5,7 @@
  */
 import type { CCNode } from '@agogpixel/pgmmv-ts/api/cc/node';
 
-import type { ParsedText } from '../parse/parsed-text.interface';
+import type { ParsedText } from '../../text/parse/parsed-text.interface';
 
 /**
  * Text node API.
