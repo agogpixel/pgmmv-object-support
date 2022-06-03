@@ -3,6 +3,7 @@
  *
  * @module
  */
+export * from './cc';
 export * from './font';
 export * from './image';
 export * from './object-instance';
