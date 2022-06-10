@@ -3,8 +3,9 @@
  *
  * @module
  */
-export * from './create-text-node-class.function';
 export * from './create-text-node.function';
+export * from './menu-item';
 export * from './text-node-alignment.enum';
-export * from './text-node-class.type';
+export * from './text-node-config.interface';
+export * from './text-node-protected-api.interface';
 export * from './text-node.interface';

@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@agogpixel/cavy": "~0.1.1",
-    "@agogpixel/pgmmv-ts": "~0.8.0",
+    "@agogpixel/pgmmv-ts": "0.9.0--dev-build-1653858613",
     "@types/jest": "~27.5.1",
     "@types/node": "~17.0.36",
     "@typescript-eslint/eslint-plugin": "~5.27.0",

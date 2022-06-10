@@ -3,4 +3,5 @@
  *
  * @module
  */
+export * from './controllable-menu';
 export * from './text-node';
