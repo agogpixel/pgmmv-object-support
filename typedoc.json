@@ -1,6 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
+    "./src/cc/controllable-menu",
     "./src/cc/text-node",
     "./src/cc",
     "./src/font",

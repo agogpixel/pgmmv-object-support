@@ -3,9 +3,11 @@
  *
  * @module
  */
+import type { CCMenuItem } from '@agogpixel/pgmmv-ts/api/cc/menu-item';
 import type { CCNode } from '@agogpixel/pgmmv-ts/api/cc/node';
 import type { CCSize } from '@agogpixel/pgmmv-ts/api/cc/size';
 
+import type { ControllerService } from '../../controller/service/controller-service.interface';
 import { createControllerService } from '../../controller/service/create-controller-service.function';
 
 import type { ControllableMenuConfig } from './controllable-menu-config.interface';
@@ -51,7 +53,83 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
   // Private Methods
   //////////////////////////////////////////////////////////////////////////////
 
-  // None.
+  /**
+   *
+   * @param direction
+   * @returns
+   * @private
+   */
+  function seekHorizontal(direction: -1 | 1) {
+    if (
+      !internalApi.enabled ||
+      internalApi.selectedIndex < 0 ||
+      !internalApi.layoutMap ||
+      !internalApi.layoutReverseMap
+    ) {
+      return;
+    }
+
+    const positionString = internalApi.layoutReverseMap[internalApi.selectedIndex];
+    const p = positionString.split(',').map(function (s) {
+      return parseInt(s);
+    });
+
+    let px = p[0];
+    const py = p[1];
+
+    let node: CCNode | undefined = undefined;
+
+    do {
+      px = (px + direction) % internalApi.maxColumns;
+
+      const candidateIndex = internalApi.layoutMap[`${px},${py}`];
+
+      if (candidateIndex !== undefined) {
+        node = self.getChildren()[candidateIndex];
+        internalApi.selectedIndex = candidateIndex;
+        internalApi.onSelected(self, node as CCMenuItem, candidateIndex);
+      }
+    } while (node === undefined);
+  }
+
+  /**
+   *
+   * @param direction
+   * @returns
+   * @private
+   */
+  function seekVertical(direction: -1 | 1) {
+    if (
+      !internalApi.enabled ||
+      internalApi.selectedIndex < 0 ||
+      !internalApi.layoutMap ||
+      !internalApi.layoutReverseMap
+    ) {
+      return;
+    }
+
+    const positionString = internalApi.layoutReverseMap[internalApi.selectedIndex];
+    const p = positionString.split(',').map(function (s) {
+      return parseInt(s);
+    });
+
+    const px = p[0];
+    let py = p[1];
+
+    let node: CCNode | undefined = undefined;
+
+    do {
+      py = (py + direction) % internalApi.maxRows;
+
+      const candidateIndex = internalApi.layoutMap[`${px},${py}`];
+
+      if (candidateIndex !== undefined) {
+        node = self.getChildren()[candidateIndex];
+        internalApi.selectedIndex = candidateIndex;
+        internalApi.onSelected(self, node as CCMenuItem, candidateIndex);
+      }
+    } while (node === undefined);
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   // Protected Properties
@@ -73,6 +151,39 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
   internalApi.maxColumns = 0;
   internalApi.maxRows = 0;
   internalApi.maxMenuItemSize = cc.size(0, 0);
+  internalApi.selectedIndex = -1;
+
+  internalApi.onCancel =
+    configApi.onCancel ||
+    function (menu) {
+      menu.removeAllChildren();
+
+      const parent = menu.getParent();
+
+      if (parent) {
+        parent.removeChild(menu);
+      }
+    };
+
+  internalApi.onOk =
+    configApi.onOk ||
+    function (menu, menuItem) {
+      menuItem.activate();
+
+      menu.removeAllChildren();
+
+      const parent = menu.getParent();
+
+      if (parent) {
+        parent.removeChild(menu);
+      }
+    };
+
+  internalApi.onSelected =
+    configApi.onSelected ||
+    function () {
+      return;
+    };
 
   //////////////////////////////////////////////////////////////////////////////
   // Protected Methods
@@ -107,6 +218,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
       internalApi.maxColumns = 0;
       internalApi.maxRows = 0;
       internalApi.maxMenuItemSize = cc.size(0, 0);
+      internalApi.selectedIndex = -1;
       return;
     }
 
@@ -169,6 +281,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
     internalApi.maxColumns = column;
     internalApi.maxRows = 1;
     internalApi.maxMenuItemSize = cc.size(maxMenuItemWidth, maxMenuItemHeight);
+    internalApi.selectedIndex = numMenuItems > 0 ? menuItems[0].index : -1;
   };
 
   self.alignItemsInColumns = function (...maxCells: number[]) {
@@ -194,6 +307,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
       internalApi.maxColumns = 0;
       internalApi.maxRows = 0;
       internalApi.maxMenuItemSize = cc.size(0, 0);
+      internalApi.selectedIndex = -1;
       return;
     }
 
@@ -307,6 +421,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
     internalApi.maxColumns = maxColumns;
     internalApi.maxRows = maxRows;
     internalApi.maxMenuItemSize = cc.size(maxMenuItemWidth, maxMenuItemHeight);
+    internalApi.selectedIndex = numMenuItems > 0 ? menuItems[0].index : -1;
   };
 
   self.alignItemsInRows = function (...maxCells: number[]) {
@@ -332,6 +447,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
       internalApi.maxColumns = 0;
       internalApi.maxRows = 0;
       internalApi.maxMenuItemSize = cc.size(0, 0);
+      internalApi.selectedIndex = -1;
       return;
     }
 
@@ -445,6 +561,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
     internalApi.maxColumns = maxColumns;
     internalApi.maxRows = maxRows;
     internalApi.maxMenuItemSize = cc.size(maxMenuItemWidth, maxMenuItemHeight);
+    internalApi.selectedIndex = numMenuItems > 0 ? menuItems[0].index : -1;
   };
 
   self.alignItemsVertically = function () {
@@ -464,6 +581,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
       internalApi.maxColumns = 0;
       internalApi.maxRows = 0;
       internalApi.maxMenuItemSize = cc.size(0, 0);
+      internalApi.selectedIndex = -1;
       return;
     }
 
@@ -526,6 +644,7 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
     internalApi.maxColumns = 1;
     internalApi.maxRows = row;
     internalApi.maxMenuItemSize = cc.size(maxMenuItemWidth, maxMenuItemHeight);
+    internalApi.selectedIndex = numMenuItems > 0 ? menuItems[0].index : -1;
   };
 
   self.getControlSchema = function () {
@@ -622,56 +741,45 @@ export function createControllableMenu(config?: ControllableMenuConfig, internal
 
   self.update = function () {
     if (!internalApi.enabled) {
-      return Agtk.constants.actionCommands.commandBehavior.CommandBehaviorBlock;
+      return;
     }
 
     const controlSchema = internalApi.controlSchema;
     const controllerService = internalApi.controllerService;
 
-    let isCancelInputActive = false;
-    const cancelOperationKeyIds = controlSchema.cancel;
-    for (let i = 0; i < cancelOperationKeyIds.length; ++i) {
-      const cancelOperationKeyId = cancelOperationKeyIds[i];
-      controllerService.isOperationKeyJustReleased(cancelOperationKeyId);
-      if (controllerService.isOperationKeyJustPressed(cancelOperationKeyId)) {
-        isCancelInputActive = true;
-      }
-    }
-    if (isCancelInputActive) {
-      // TODO Cancel stuffs...
-      return Agtk.constants.actionCommands.commandBehavior.CommandBehaviorNext;
+    if (isInputActive(controllerService, controlSchema.cancel)) {
+      internalApi.onCancel(self);
+      return;
     }
 
-    let isOkInputActive = false;
-    const okOperationKeyIds = controlSchema.ok;
-    for (let i = 0; i < okOperationKeyIds.length; ++i) {
-      const okOperationKeyId = okOperationKeyIds[i];
-      controllerService.isOperationKeyJustReleased(okOperationKeyId);
-      if (controllerService.isOperationKeyJustPressed(okOperationKeyId)) {
-        isOkInputActive = true;
-      }
-    }
-    if (isOkInputActive) {
-      // TODO Ok stuffs...
-      return Agtk.constants.actionCommands.commandBehavior.CommandBehaviorNext;
+    if (isInputActive(controllerService, controlSchema.ok)) {
+      internalApi.onOk(self, self.getChildren()[internalApi.selectedIndex] as CCMenuItem, internalApi.selectedIndex);
+      return;
     }
 
-    let isNextVerticalInputActive = false;
-    const nextVerticalOperationKeyIds = controlSchema.nextVertical;
-    for (let i = 0; i < nextVerticalOperationKeyIds.length; ++i) {
-      const nextVerticalOperationKeyId = nextVerticalOperationKeyIds[i];
-      controllerService.isOperationKeyJustReleased(nextVerticalOperationKeyId);
-      if (controllerService.isOperationKeyJustPressed(nextVerticalOperationKeyId)) {
-        isNextVerticalInputActive = true;
-      }
-    }
-    if (isNextVerticalInputActive) {
-      // TODO Next vertical stuffs...
+    if (isInputActive(controllerService, controlSchema.nextVertical)) {
+      seekVertical(1);
+      return;
     }
 
-    // TODO: Other inputs...
+    if (isInputActive(controllerService, controlSchema.previousVertical)) {
+      seekVertical(-1);
+      return;
+    }
 
-    return Agtk.constants.actionCommands.commandBehavior.CommandBehaviorBlock;
+    if (isInputActive(controllerService, controlSchema.nextHorizontal)) {
+      seekHorizontal(1);
+      return;
+    }
+
+    if (isInputActive(controllerService, controlSchema.previousHorizontal)) {
+      seekHorizontal(-1);
+      return;
+    }
+
+    if (controlSchema.enableMouse) {
+      // TODO: Mouse inputs...
+    }
   };
 
   //////////////////////////////////////////////////////////////////////////////
@@ -724,4 +832,26 @@ function processMenuItems(items: CCNode[]) {
     maxMenuItemWidth,
     menuItems
   };
+}
+
+/**
+ *
+ * @param controllerService
+ * @param keyIds
+ * @returns
+ */
+function isInputActive(controllerService: ControllerService, keyIds: number[]) {
+  let isActive = false;
+
+  for (let i = 0; i < keyIds.length; ++i) {
+    const keyId = keyIds[i];
+
+    controllerService.isOperationKeyJustReleased(keyId);
+
+    if (controllerService.isOperationKeyJustPressed(keyId)) {
+      isActive = true;
+    }
+  }
+
+  return isActive;
 }

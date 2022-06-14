@@ -3,7 +3,6 @@
  *
  * @module
  */
-import type { AgtkConstants } from '@agogpixel/pgmmv-ts/api/agtk/constants';
 import type { CCMenuPassive } from '@agogpixel/pgmmv-ts/api/cc/menu-passive';
 
 import type { ControllableMenuControlSchema } from './controllable-menu-control-schema.interface';
@@ -11,10 +10,6 @@ import type { ControllableMenuLayoutHorizontalCellAlignment } from './controllab
 import type { ControllableMenuLayoutMainAxis } from './controllable-menu-layout-main-axis.enum';
 import type { ControllableMenuLayoutVerticalCellAlignment } from './controllable-menu-layout-vertical-cell-alignment.enum';
 import type { ControllableMenuLayout } from './controllable-menu-layout.interface';
-
-type CommandBehaviorObject = AgtkConstants['actionCommands']['commandBehavior'];
-type CommandBehaviorKey = keyof CommandBehaviorObject;
-type CommandBehavior = CommandBehaviorObject[CommandBehaviorKey];
 
 /**
  * Controllable menu API.
@@ -134,8 +129,6 @@ export interface ControllableMenu extends CCMenuPassive {
 
   /**
    * Update menu state.
-   *
-   * @returns Command behavior.
    */
-  update(): CommandBehavior;
+  update(): void;
 }

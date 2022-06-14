@@ -7,8 +7,11 @@ import type { CCSize } from '@agogpixel/pgmmv-ts/api/cc/size';
 
 import type { ControllerService } from '../../controller/service/controller-service.interface';
 
+import type { ControllableMenuCancel } from './controllable-menu-cancel.type';
 import type { ControllableMenuControlSchema } from './controllable-menu-control-schema.interface';
 import type { ControllableMenuLayout } from './controllable-menu-layout.interface';
+import type { ControllableMenuOk } from './controllable-menu-ok.type';
+import type { ControllableMenuSelected } from './controllable-menu-selected.type';
 
 /**
  * Controllable menu protected API.
@@ -76,4 +79,32 @@ export interface ControllableMenuProtectedApi {
    * @protected
    */
   maxRows: number;
+
+  /**
+   * Menu cancel callback.
+   *
+   * @protected
+   */
+  onCancel: ControllableMenuCancel;
+
+  /**
+   * Menu ok callback.
+   *
+   * @protected
+   */
+  onOk: ControllableMenuOk;
+
+  /**
+   * Menu item selected callback.
+   *
+   * @protected
+   */
+  onSelected: ControllableMenuSelected;
+
+  /**
+   * Selected menu item index.
+   *
+   * @protected
+   */
+  selectedIndex: number;
 }
